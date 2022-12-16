@@ -2,26 +2,24 @@
 #define QUEUE_H_INCLUDED
 #include "list.h"
 
-class Queue : public single_linked_list
+class Queue: public single_linked_list
 {
 public:
-    Queue() : top(nullptr), tail(nullptr) {};          // Конструктор по умолчанию
+    Queue () : top(nullptr), tail(nullptr) {};          // Конструктор по умолчанию
 
-    Queue(Queue&& q) : top(q.top), tail(q.tail) {}  //Конструктор перемещения
+    Queue (Queue&& q) : top(q.top), tail(q.tail) {}  //Конструктор перемещения
 
-    Queue(const Queue& q) : top(nullptr), tail(nullptr) //Конструктор копирования
+    Queue (const Queue& q) : top (nullptr), tail (nullptr) //Конструктор копирования
     {
-        node* t = q.top;
+        node *t = q.top;
         while (t != nullptr)
         {
-            node* n = new node;
+            node *n = new node;
 
             n->data = t->data;
             n->next = nullptr;
-            if (q.top == nullptr)
-            {
+            if (top == nullptr)
                 top = n;
-            }
             else tail->next = n;
             tail = n;
             t = t->next;
@@ -30,13 +28,13 @@ public:
 
     ~Queue()
     {
-        while (!IsEmpty())
+        while(!IsEmpty())
             Pop(nullptr);
     }
 
     void Free()
     {
-        while (!this->Pop(nullptr));
+        while(!this->Pop(nullptr));
     }
 
     Queue& operator = (const Queue& s)
@@ -45,7 +43,7 @@ public:
 
         (*this).Free(); //<=> Free();
 
-        node* t = s.top;
+        node *t = s.top;
 
         while (t != nullptr)
         {
@@ -57,7 +55,7 @@ public:
 
     Queue& operator = (const Queue&& q)
     {
-        node* t = q.top;
+        node *t = q.top;
 
         while (t != nullptr)
         {
@@ -72,10 +70,10 @@ public:
     {
         if (&q == this) return *this;
         const Queue& queu = dynamic_cast<const Queue&>(q);
-        node* t = queu.top;
+        node *t = queu.top;
         while (t != nullptr)
         {
-            node* n = new node;
+            node *n = new node;
 
             n->data = t->data;
             n->next = nullptr;
@@ -90,7 +88,7 @@ public:
         return *this;
     }
 
-    int Push(const int e) override
+    int Push (const int e) override
     {
         node* n = new node; //выделение памяти на новый узел
 
@@ -106,9 +104,9 @@ public:
         return 0;
     }
 
-    int Pop(int* e) override
+    int Pop(int *e) override
     {
-        struct node* t = top; //запоминаем указатель на узел в вершине
+        struct node *t = top; //запоминаем указатель на узел в вершине
         if (!t) return 1;
 
         top = t->next;
@@ -126,7 +124,7 @@ public:
         return top == nullptr;
     }
 
-    enum ERR_CODE { OUT_OF_RANGE };
+    enum ERR_CODE {OUT_OF_RANGE};
 
     const int& GetFront() const override
     {
@@ -140,7 +138,7 @@ public:
         int q_size = 0;
         if (top == nullptr)
             return 0;
-        struct node* tmp = top;
+        struct node *tmp = top;
         q_size++;
 
         while (tmp->next != nullptr)
@@ -151,9 +149,9 @@ public:
         return q_size;
     }
 protected:
-    void Print(std::ostream& stream) const override
+    void Print(std::ostream &stream) const override
     {
-        struct node* tmp = top;
+        struct node *tmp = top;
         stream << tmp->data << ' ';
 
         while (tmp->next != nullptr)
@@ -171,4 +169,3 @@ private:
 };
 
 #endif // QUEUE_H_INCLUDED
-#pragma once
