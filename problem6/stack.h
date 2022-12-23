@@ -2,17 +2,17 @@
 #define STACK_H_INCLUDED
 #include "list.h"
 
-class Stack : public single_linked_list
+class Stack: public single_linked_list
 {
 public:
-    Stack() : top(nullptr) {};          // Конструктор по умолчанию
+    Stack () : top(nullptr) {};          // Конструктор по умолчанию
 
-    Stack(Stack&& s) : top(s.top) { s.top = nullptr; }  //Конструктор перемещения
+    Stack (Stack&& s) : top(s.top) {s.top = nullptr;}  //Конструктор перемещения
 
-    Stack(const Stack& s) : top(new node) //Конструктор копирования
+    Stack (const Stack& s) : top(nullptr) //Конструктор копирования
     {
-        node* t = s.top;
-        node** n = &top;
+        node *t = s.top;
+        node **n = &top;
 
         while (t != nullptr)
         {
@@ -27,12 +27,12 @@ public:
 
     ~Stack()
     {
-        while (!this->Pop(nullptr));
+        while(!this->Pop(nullptr));
     }
 
     void Free()
     {
-        while (!this->Pop(nullptr));
+        while(!this->Pop(nullptr));
     }
 
     Stack& operator = (const Stack& s)
@@ -41,8 +41,8 @@ public:
 
         Free(); //очистить стек без удаления
 
-        node* t = s.top;
-        node** n = &top;
+        node *t = s.top;
+        node **n = &top;
 
         while (t != nullptr)
         {
@@ -58,8 +58,8 @@ public:
 
     Stack& operator = (Stack&& s)
     {
-        node* t = s.top;
-        node** n = &top;
+        node *t = s.top;
+        node **n = &top;
 
         while (t != nullptr)
         {
@@ -77,8 +77,8 @@ public:
     {
         if (&s == this) return *this;
         const Stack& stackk = dynamic_cast<const Stack&>(s);
-        node* t = stackk.top;
-        node** n = &top;
+        node *t = stackk.top;
+        node **n = &top;
 
         while (t != nullptr)
         {
@@ -92,9 +92,9 @@ public:
         return *this;
     }
 
-    int Push(const int e) override
+    int Push (const int e) override
     {
-        node* n = new node;//выделение памяти на новый узел
+        node *n = new node ;//выделение памяти на новый узел
 
         n->data = e; //заполнение узла
         n->next = top; //в новом узле указатель на соседа устанавливается на узел в голове в старом
@@ -103,9 +103,9 @@ public:
         return 0;
     }
 
-    int Pop(int* e) override
+    int Pop(int *e) override
     {
-        struct node* t = top; //запоминаем указатель на узел в вершине
+        struct node *t = top; //запоминаем указатель на узел в вершине
         if (!t) return 1;
 
         if (e)
@@ -121,7 +121,7 @@ public:
         return top == nullptr;
     }
 
-    enum ERR_CODE { OUT_OF_RANGE };
+    enum ERR_CODE {OUT_OF_RANGE};
 
     const int& GetFront() const override
     {
@@ -130,12 +130,12 @@ public:
         return top->data;
     }
 
-    int Size() override
+    int Size() const override
     {
         int s_size = 0;
         if (top == nullptr)
             return 0;
-        struct node* tmp = top;
+        struct node *tmp = top;
         s_size++;
 
         while (tmp->next != nullptr)
@@ -146,9 +146,9 @@ public:
         return s_size;
     }
 protected:
-    void Print(std::ostream& stream) const override
+    void Print(std::ostream &stream) const override
     {
-        struct node* tmp = top;
+        struct node *tmp = top;
         stream << tmp->data << ' ';
 
         while (tmp->next != nullptr)
@@ -163,4 +163,3 @@ private:
 };
 
 #endif // STACK_H_INCLUDED
-#pragma once
